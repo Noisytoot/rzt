@@ -1,0 +1,18 @@
+#+TITLE: rzt (RonZone Tasks)
+#+AUTHOR: noisytoot
+* Subcommands
+  - add <name> <content> :: Add a task
+  - list <name> :: Show the contents of a task
+  - delete <name> :: Delete a task
+  - list :: List all tasks, and their names
+* Task file
+  The task file is set in the environment variable =$RZT_TASKS_FILE=
+  If =$RZT_TASKS_FILE= does not exist then it is in =~/.rzt/tasks.json=
+  It is in JSON, and contains a hash
+  Example file:
+#+BEGIN_SRC json
+{
+"Task name": "Task content",
+"Another task": "Hello"
+}
+#+END_SRC
