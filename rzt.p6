@@ -3,7 +3,7 @@ use v6;
 use JSON::Fast;
 use Terminal::ANSIColor;
 
-my Int @version = 1, 0, 0;
+my Int @version = 1, 0, 1;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -11,9 +11,7 @@ if %*ENV<RZT_TASKS_FILE>:exists {
 } else {
     $file = "$*HOME/.rzt/tasks.json";
     unless $file.IO.e {
-        if "{%*ENV<HOME>}/.rzt".IO.e == False {
-            mkdir "{%*ENV<HOME>}/.rzt";
-        }
+        mkdir "{%*ENV<HOME>}/.rzt" unless "{%*ENV<HOME>}/.rzt".IO.e;
         spurt $file, '{}';
     }
 }
