@@ -3,7 +3,7 @@ use v6;
 use JSON::Fast;
 use Terminal::ANSIColor;
 
-my Int @version = 1, 0, 2;
+my Int @version = 1, 0, 3;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -19,6 +19,7 @@ my Str %tasks = from-json(slurp($file)).Array;
 
 sub error(Str $error) {
     $*ERR.say(colored("ERROR: $error", "bold red"));
+    exit 1;
 }
 
 multi sub MAIN( #= add
