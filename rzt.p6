@@ -3,7 +3,7 @@ use v6;
 use JSON::Fast;
 use Terminal::ANSIColor;
 
-my Int @version = 1, 0, 1;
+my Int @version = 1, 0, 2;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -17,6 +17,10 @@ if %*ENV<RZT_TASKS_FILE>:exists {
 }
 my Str %tasks = from-json(slurp($file)).Array;
 
+sub error(Str $error) {
+    $*ERR.say(colored("ERROR: $error", "bold red"));
+}
+
 multi sub MAIN( #= add
     Str $mode, #= mode
     Str $name, #= name of the task
@@ -24,7 +28,7 @@ multi sub MAIN( #= add
 ) {
     given $mode {
         when "add" {
-            %tasks.append($name, $content);
+            %tasks{$name} = $content;
             spurt $file, to-json(%tasks);
             say colored("\"$name\"", "italic magenta") ~ " " ~ colored("added!", "bold green");
         }
@@ -36,12 +40,20 @@ multi sub MAIN( #= list, or delete
 ) {
     given $mode {
         when "list" {
-            say colored(%tasks{$name}, "italic magenta");
+            if %tasks{$name}:exists {
+                say colored(%tasks{$name}, "italic magenta");
+            } else {
+                error "\"$name\" does not exist";
+            }
         }
         when "delete" {
-            %tasks{$name}:delete;
-            spurt $file, to-json(%tasks);
-            say colored("\"$name\"", "italic magenta") ~ " " ~ colored("deleted!", "bold green");
+            if %tasks{$name}:exists {
+                %tasks{$name}:delete;
+                spurt $file, to-json(%tasks);
+                say colored("\"$name\"", "italic magenta") ~ " " ~ colored("deleted!", "bold green");
+            } else {
+                error "\"$name\" does not exist";
+            }
         }
     }
 }
