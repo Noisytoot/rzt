@@ -3,7 +3,7 @@ use v6;
 use JSON::Fast;
 use Terminal::ANSIColor;
 
-my Int @version = 1, 0, 3;
+my Int @version = 1, 1, 0;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -22,16 +22,33 @@ sub error(Str $error) {
     exit 1;
 }
 
-multi sub MAIN( #= add
+multi sub MAIN( #= add, copy, or move
     Str $mode, #= mode
     Str $name, #= name of the task
-    Str $content #= contents of the task
+    Str $task #= contents of the task for add, or destination for copy/move
 ) {
     given $mode {
         when "add" {
-            %tasks{$name} = $content;
+            %tasks{$name} = $task;
             spurt $file, to-json(%tasks);
             say colored("\"$name\"", "italic magenta") ~ " " ~ colored("added!", "bold green");
+        }
+        when "copy" {
+            if %tasks{$name}:exists {
+                %tasks{$task} = %tasks{$name};
+                spurt $file, to-json(%tasks);
+            } else {
+                error "\"$name\" does not exist"
+            }
+        }
+        when "move" {
+            if %tasks{$name}:exists {
+                %tasks{$task} = %tasks{$name};
+                %tasks{$name}:delete;
+                spurt $file, to-json(%tasks);
+            } else {
+                error "\"$name\" does not exist"
+            }
         }
     }
 }
