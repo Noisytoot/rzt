@@ -13,8 +13,8 @@
   It is in JSON, and contains a hash
   Example file:
   #+BEGIN_SRC json
-{
-    "Task name": "Task content",
-    "Another task": "Hello"
-}
-#+END_SRC
+  {
+      "Task name": "Task content",
+      "Another task": "Hello"
+  }
+  #+END_SRC
