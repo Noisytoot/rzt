@@ -7,6 +7,10 @@
   - list <name> :: Show the contents of a task
   - delete <name> :: Delete a task
   - list :: List all tasks, and their names
+  - add :: Add a task interactively
+  - delete :: Delete a task interactively
+  - copy :: Copy a task interactively
+  - move :: Move/rename a task interactively
 * Task file
   The task file is set in the environment variable =$RZT_TASKS_FILE=
   If =$RZT_TASKS_FILE= does not exist then it is in =~/.rzt/tasks.json=
