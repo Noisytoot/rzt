@@ -4,7 +4,7 @@ use JSON::Fast;
 use Terminal::ANSIColor;
 use Readline;
 
-my Int @version = 1, 2, 1;
+my Int @version = 1, 2, 2;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -16,7 +16,7 @@ if %*ENV<RZT_TASKS_FILE>:exists {
         spurt $file, '{}';
     }
 }
-my Str %tasks = from-json(slurp($file)).Array;
+my Str %tasks = from-json(slurp($file));
 
 sub error(Str $error) {
     $*ERR.say(colored("ERROR: $error", "bold red"));
