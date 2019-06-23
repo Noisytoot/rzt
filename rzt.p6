@@ -4,7 +4,7 @@ use JSON::Fast;
 use Terminal::ANSIColor;
 use Readline;
 
-my Int @version = 1, 2, 0;
+my Int @version = 1, 2, 1;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -114,7 +114,7 @@ multi sub MAIN( #= list, version, add, delete, copy, or move
         when "list" {
             my Int $i = 0;
             for %tasks.kv -> $key, $value {
-                say colored("$key", "italic magenta") ~ colored(":", "bold yellow") ~ " " ~ colored("$value", "italic magenta");
+                say colored($key, "italic magenta") ~ colored(":", "bold yellow") ~ " " ~ colored($value, "italic magenta");
                 $i++;
             }
         }
