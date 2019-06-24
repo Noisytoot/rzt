@@ -4,7 +4,7 @@ use JSON::Fast;
 use Terminal::ANSIColor;
 use Readline;
 
-my Int @version = 1, 2, 2;
+my Int @version = 1, 2, 3;
 my Str $version = "@version[0].@version[1].@version[2]";
 my Str $file;
 if %*ENV<RZT_TASKS_FILE>:exists {
@@ -128,7 +128,6 @@ multi sub MAIN( #= list, version, add, delete, copy, or move
         }
         when "delete" {
             my Str $name = interactive "What is the task called? ";
-            my Str $task = interactive "What is the task? ";
             rzt-delete %tasks, $name, $file;
         }
         when "copy" {
